@@ -1,0 +1,144 @@
+﻿{include file='/goods_types/header' title='商品类别'}
+<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog">
+		<div class="modal-content radius">
+			<div class="modal-header">
+				<h3 class="modal-title">添加类别</h3>
+				<a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void(0);">×</a>
+			</div>
+			<p style="color: red" id="add_error"></p>
+			<div class="modal-body" style="padding-left: 50px">
+				<span class="c-red">*</span>类别名称：
+				<input type="text" style="width: 300px" class="input-text" value="" placeholder="" id="type_name" name="type_name">
+
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="type_sure" >确定</button>
+				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="modal-demo1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog">
+		<div class="modal-content radius">
+			<div class="modal-header">
+				<h3 class="modal-title">修改类别</h3>
+				<a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void(0);">×</a>
+			</div>
+			<p style="color: red" id="update_error"></p>
+			<div class="modal-body" style="padding-left: 50px">
+				<span class="c-red">*</span>类别名称：
+				<input type="text" style="width: 300px" class="input-text" value="" placeholder="" id="update_name" name="update_name">
+
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="update_sure" data-type="">确定</button>
+				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="page-container">
+
+	<div class="cl pd-5 bg-1 bk-gray mt-20" style="height: 40px;line-height: 30px;padding-right: 10px;padding-top: 15px">
+		<span style="font-size: 18px">数据列表</span>
+		<button class="btn radius  size-M " style="float: right" onClick="modaldemo()">添加</button>
+	</div>
+	<div class="mt-20">
+	<table class="table table-border table-bordered table-hover table-bg table-sort">
+		<thead>
+			<tr class="text-c">
+
+				<th width="80">编号</th>
+				<th width="100">类别名称</th>
+				<th width="40">属性数量</th>
+				<th width="90">设置</th>
+				<th width="150">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+		{volist name='data' id='val' key='k'}
+		<tr class="text-c">
+			<td>{$k}</td>
+			<td class="type_names">{$val['type_name']}</td>
+			<td>{$val['attribute']}</td>
+			<td><button class="btn radius size-S " name="set_up">属性设置</button></td>
+			<td><button class="btn radius size-S " data-type="{$val['type_id']}" name="update"  onClick="modaldemo1()">修改</button></td>
+		</tr>
+		{/volist}
+		</tbody>
+	</table>
+	</div>
+</div>
+{include file='goods_types/footer' }
+<script type="text/javascript">
+$(function(){
+	$("button[name='set_up']").click(function () {
+	    var type_names = $('.type_names').html();
+		window.location.href = "/goods_types/attributesList?type_name="+type_names;
+    });
+
+	//添加商品类别
+    $('#type_sure').click(function () {
+		var  type_name = $('#type_name').val();
+//		alert(type_name);
+
+		$.post("{:url('add')}",{type_name:type_name}, function (data) {
+//		    console.log(data.msg.type_name)
+			if (data.status == 200) {
+			    alert(data.msg);
+			    window.location.reload();
+			}
+            if (data.status == 402) {
+                $('#add_error').html(data.msg.type_name);
+
+            } else if (data.status == 402) {
+                $('#add_error').html(data.msg);
+			} else {
+                $('#add_error').html(' ');
+			}
+        })
+    })
+
+	//修改商品类别
+	$("button[name='update']").click(function () {
+        var  type_name = $(this).parent().parent().children(".type_names").html();
+        var type_id = $(this).attr('data-type');
+//        alert(type_id);
+		$("#update_sure").attr('data-type',type_id);
+		$("input[name='update_name']").val(type_name);
+    })
+
+	//确定修改
+	$('#update_sure').click(function () {
+		var type_name = $('#update_name').val();
+//		alert(type_name)
+		var type_id = $(this).attr('data-type');
+//		alert(type_id);
+		$.post("{:url('update')}",{type_name:type_name,type_id:type_id}, function (data) {
+//			console.log(data)
+            if (data.status == 200) {
+                alert(data.msg);
+                window.location.reload();
+            }
+            if (data.status == 402) {
+                $('#update_error').html(data.msg.type_name);
+
+            } else if (data.status == 402) {
+                $('#update_error').html(data.msg);
+            } else {
+                $('#update_error').html(' ');
+            }
+        })
+    })
+});
+function modaldemo(){
+    $("#modal-demo").modal("show")}
+function modaldemo1(){
+    $("#modal-demo1").modal("show")}
+</script> 
+</body>
+</html>

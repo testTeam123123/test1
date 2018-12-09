@@ -1,0 +1,116 @@
+{include file='/goods_types/header' title='商品类别'}
+<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content radius">
+            <div class="modal-header">
+                <h3 class="modal-title">添加属性</h3>
+                <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void(0);">×</a>
+            </div>
+            <p style="color: red" id="add_error"></p>
+            <div class="modal-body" style="padding-left: 50px">
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-4"><span class="c-red">*</span>属性名称：</label>
+                    <div class="formControls col-xs-8 col-sm-8">
+                        <input type="text" class="input-text" value="" placeholder="" id="attribute_name" name="attribute_name" style="width:300px;">
+                    </div>
+                </div>
+                <br>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-4">排序属性：</label>
+                    <div class="formControls col-xs-8 col-sm-8">
+                        <input type="text" class="input-text" value="" placeholder="" id="attribute_sort" name="attribute_sort" style="width:300px;">
+                    </div>
+                </div>
+                <br>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-4">属性值可选值列表：</label>
+                    <div class="formControls col-xs-8 col-sm-8">
+                        <input type="text" class="input-text" value="" placeholder="" id="attribute_explain" name="attribute_explain" style="width:300px;">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="add_sure">确定</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-container">
+
+    <div class="cl pd-5 bg-1 bk-gray mt-20" style="height: 40px;line-height: 30px;padding-right: 10px;padding-top: 15px">
+
+        <a href="{:url('index')}">返回</a>
+        <button class="btn radius  size-M " style="float: right" onClick="modaldemo()">添加</button>
+    </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+            <tr class="text-c">
+
+                <th width="80">编号</th>
+                <th width="100">属性名称</th>
+                <th width="40">商品类型</th>
+                <th width="90">排序</th>
+                <th width="150">可选值列表</th>
+                <th width="150">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <input type="hidden"value="{$type_name}" id="type_name">
+            {volist name='data' id='val' key='k'}
+            <tr class="text-c">
+                <td>{$k}</td>
+                <td id="attribute_names">{$val['attribute_name']}</td>
+                <td>{$val['type_name']}</td>
+                <td>{$val['attribute_sort']}</td>
+                <td>{$val['attribute_explain']}</td>
+                <td><button class="btn radius size-S " >修改</button></td>
+            </tr>
+            {/volist}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{include file='goods_types/footer' }
+<script type="text/javascript">
+    $(function(){
+
+        $('#add_sure').click(function () {
+            var  attribute_name = $("#attribute_name").val();
+            var  attribute_sort = $("#attribute_sort").val();
+            var  attribute_explain = $("#attribute_explain").val();
+            var  type_name = $('#type_name').val();
+            $.post("{:url('attributeAdd')}",{
+                    attribute_name:attribute_name,
+                    attribute_sort:attribute_sort,
+                    attribute_explain:attribute_explain,
+                    type_name:type_name
+                },
+                function (data) {
+                console.log(data)
+
+                if (data.status == 200) {
+                    alert(data.msg);
+                    window.location.reload();
+                }
+                if (data.status == 402) {
+                    $('#add_error').html(data.msg.attribute_name);
+
+                } else if (data.status == 402) {
+                    $('#add_error').html(data.msg);
+                } else {
+                    $('#add_error').html(' ');
+                }
+            })
+        })
+
+    });
+    function modaldemo(){
+        $("#modal-demo").modal("show")}
+</script>
+</body>
+</html>
