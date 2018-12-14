@@ -1,4 +1,7 @@
-﻿{include file='/goods_types/header' title='商品类别'}
+﻿{include file='public/header' title='商品类别'}
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 商品类别 <span class="c-gray en">&gt;</span>  <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div id="modal-demo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 	<div class="modal-dialog">
 		<div class="modal-content radius">
@@ -43,6 +46,7 @@
 <div class="page-container">
 
 	<div class="cl pd-5 bg-1 bk-gray mt-20" style="height: 40px;line-height: 30px;padding-right: 10px;padding-top: 15px">
+		<i class="Hui-iconfont " style="font-size: 30px;position: relative;top: 5px;">&#xe6c6;</i>
 		<span style="font-size: 18px">数据列表</span>
 		<button class="btn radius  size-M " style="float: right" onClick="modaldemo()">添加</button>
 	</div>
@@ -64,21 +68,25 @@
 		<tr class="text-c">
 			<td>{$k}</td>
 			<td class="type_names">{$val['type_name']}</td>
-			<td>{$val['attribute']}</td>
-			<td><button class="btn radius size-S " name="set_up">属性设置</button></td>
-			<td><button class="btn radius size-S " data-type="{$val['type_id']}" name="update"  onClick="modaldemo1()">修改</button></td>
+			<td>{$count[$k-1]}</td>
+			<td><button class="btn radius size-S " data-type="{$val['type_id']}" name="set_up">属性设置</button></td>
+			<td>
+				<button class="btn radius size-S " data-type="{$val['type_id']}" name="update"  onClick="modaldemo1()">修改</button>
+				<button class="btn btn-danger radius size-S " data-type="{$val['type_id']}" name="delete" >删除</button>
+			</td>
 		</tr>
 		{/volist}
 		</tbody>
 	</table>
 	</div>
 </div>
-{include file='goods_types/footer' }
+{include file='public/footer' }
 <script type="text/javascript">
 $(function(){
 	$("button[name='set_up']").click(function () {
-	    var type_names = $('.type_names').html();
-		window.location.href = "/goods_types/attributesList?type_name="+type_names;
+	    var type_id =$(this).attr('data-type');
+//	    alert(type_names);
+		window.location.href = "/goods_types/attributesList?type="+type_id;
     });
 
 	//添加商品类别
@@ -127,12 +135,31 @@ $(function(){
             if (data.status == 402) {
                 $('#update_error').html(data.msg.type_name);
 
-            } else if (data.status == 402) {
+            } else if (data.status == 401) {
                 $('#update_error').html(data.msg);
             } else {
                 $('#update_error').html(' ');
             }
         })
+    })
+
+	//删除商品类别
+	$("button[name='delete']").click(function () {
+		var type_id = $(this).attr('data-type');
+//		alert(type_id)
+		if (confirm('确定删除？')) {
+            $.post("{:url('delete')}", {type_id:type_id}, function (data) {
+//                console.log(data);
+				if (data.status == 200) {
+				    alert(data.msg);
+				    window.location.reload();
+				}
+				if (data.status == 401) {
+				    alert(data.msg);
+				}
+            })
+		}
+
     })
 });
 function modaldemo(){

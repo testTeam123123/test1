@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>登录</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!-- //for-mobile-apps -->
+    <link href="../admin/css/style.css" rel="stylesheet" type="text/css" media="all" />
+
+</head>
+<body>
+    <!-- main -->
+    <div class="main">
+        <h1>
+            后台登录系统
+        </h1>
+        <form action="" method="post">
+            <input type="text" value="{$from['admin_number']|default=''}" placeholder="编号" name="admin_number">
+
+                <span style="color: red">{$error['admin_number']|default=''}</span>
+
+
+            <input type="password" value="{$from['admin_password']|default=''}" placeholder="密码" name="admin_password">
+
+                 <span style="color: red">{$error['admin_password']|default=''}</span>
+
+            <input type="submit" value="登录">
+
+        </form>
+    </div>
+    <div class="footer">
+        <p>
+        </p>
+    </div>
+    <!-- //main -->
+</body>
+</html>

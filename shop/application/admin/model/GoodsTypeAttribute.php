@@ -13,5 +13,8 @@ use think\Model;
 
 class GoodsTypeAttribute extends Model
 {
-
+    public function goodsType()
+    {
+        return $this->belongsTo('goods_type','type_id','type_id')->field('type_name');
+    }
 }

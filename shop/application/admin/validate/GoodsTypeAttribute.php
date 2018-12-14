@@ -2,25 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2018/12/9
- * Time: 21:57
+ * Date: 2018/12/10
+ * Time: 9:42
  */
 
 namespace app\admin\validate;
 
-
 use app\admin\model\GoodsType;
 use think\Validate;
 
-class GoodsTypes extends Validate
+class GoodsTypeAttribute extends Validate
 {
-
     protected $rule = [
-      'type_name' => 'require|nameOnly:type_name'
+        'type_name' => 'require|nameOnly:type_name'
     ];
 
     protected $message = [
-        'type_name.require' => '类别名称不能为空'
+        'type_name.require' => '属性名称不能为空'
     ];
 
     protected $scene = [
@@ -31,8 +29,8 @@ class GoodsTypes extends Validate
     {
         $data = new GoodsType();
         if (!empty(input('post.parent_idd'))) {
-            $rule = $data->where('attribute_id!='.input('post.parent_id'))
-                ->where('parent_id', input('post.type_id'))
+            $rule = $data->where('parent_id!='.input('post.parent_idd'))
+                ->where('parent_id', input('post.parent_id'))
                 ->where('type_name' , $value)->find();
 
             return (count($rule)>0) ? '属性名称重复' : true;
@@ -44,5 +42,4 @@ class GoodsTypes extends Validate
             return (count($rule)>0) ? '属性名称重复' : true;
         }
     }
-
 }

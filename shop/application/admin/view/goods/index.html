@@ -1,0 +1,402 @@
+{include file='/public/header' title='添加商品'}
+
+<link href="../admin/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+</head>
+<style>
+	.img{
+		width: 100px;
+		height: 100px;
+	}
+	.img_content{
+		display: inline-block;
+		float: left;
+		margin-left: 5px;
+		margin-right: 5px;
+		margin-bottom: 5px;
+		position: relative;
+	}
+	.del_img {
+		position: absolute;
+		left: 85px;
+		top: -5px;
+	}
+	.placeholderss{border: 3px dashed #e6e6e6; min-height: 238px; padding-top: 10px; text-align: center; background:url("../admin/lib/webuploader/0.1.5/images/image.png") center 93px no-repeat; color: #cccccc; font-size: 18px; position: relative;}
+</style>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 添加商品 <span class="c-gray en">&gt;</span>  <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<div class='page-container'>
+	<div class="row cl">
+		<div class="col-xs-2 col-sm-2"></div>
+		<div class="col-xs-8 col-sm-8" style="border: 1px solid silver">
+			<div class="page-container">
+				<form action="" method="post" class="form form-horizontal" id="form-article-add">
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品编号：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input type="text" class="input-text" value="" placeholder="" id="goods_number" name="goods_number">
+						</div>
+						<p id="goods_number_error" class="c-red"></p>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品名称：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input type="text" class="input-text" value="" placeholder="" id="goods_name"  name="goods_name">
+						</div>
+						<p id="goods_name_error" class="c-red"></p>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品库存：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input type="text" class="input-text" value="0" placeholder="" id="goods_count" name="goods_count">
+						</div>
+						<p id="goods_count_error" class="c-red"></p>
+					</div>
+
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品售价：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input type="text" class="input-text" value="0" placeholder="" id="goods_sell_price" name="goods_sell_price">
+						</div>
+						<p id="goods_sell_price_error" class="c-red"></p>
+					</div>
+
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2">成本价格：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input type="text" name="goods_enter_price" id="goods_enter_price" placeholder="" value="" class="input-text" style="width:90%">
+							元</div>
+					</div>
+
+					<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">销售开始时间：</label>-->
+					<!--<div class="formControls col-xs-8 col-sm-9">-->
+					<!--{literal}<input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:180px;">{/literal}-->
+					<!--</div>-->
+					<!--</div>-->
+					<!--<div class="row cl">-->
+					<!--<label class="form-label col-xs-4 col-sm-2">销售结束时间：</label>-->
+					<!--<div class="formControls col-xs-8 col-sm-9">-->
+					<!--{literal}<input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'datemin\')}' })" id="datemax" class="input-text Wdate" style="width:180px;">{/literal}-->
+					<!--</div>-->
+					<!--</div>-->
+					<!--<div class="row cl">-->
+						<!--<label class="form-label col-xs-4 col-sm-2">产品关键字：</label>-->
+						<!--<div class="formControls col-xs-8 col-sm-9">-->
+							<!--<input type="text" name="" id="" placeholder="多个关键字用英文逗号隔开，限10个关键字" value="" class="input-text">-->
+						<!--</div>-->
+					<!--</div>-->
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2">商品状态：</label>
+						<div class="formControls col-xs-8 col-sm-9" id="goods_flag">
+							<input class="btn radius btn-primary size-M" name="goods_flag" type="button" value="上架">
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2">商品介绍：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<textarea name="goods_content" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符"  ></textarea>
+							<!--<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>-->
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品类别：</label>
+						<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select class="select" id="attr">
+					<option value="0">请选择</option>
+					{volist name='type' id='val'}
+					<option value="{$val['type_id']}">{$val['type_name']}</option>
+					{/volist}
+					</select>
+				</span>
+						</div>
+
+					</div>
+
+					<div class="row cl" id="change">
+						<label class="form-label col-xs-4 col-sm-2">商品属性：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<p id="attr_error" class="c-red"></p>
+							<div class='cl pd-5 bg-1 bk-gray mt-20' style='line-height: 30px;padding-right: 10px;padding-top: 15px'>
+								<i class="c-red"></i>
+								<div id="div1"></div>
+								<div id="div2"></div>
+							</div>
+
+						</div>
+
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2">图片上传：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<div class="uploader-thum-container">
+								<div id="fileList" class="uploader-list"></div>
+								<form action="">
+								 <span class="btn-upload">
+									  <a  href="javascript:void(0);"  class="btn btn-primary radius btn-upload"> 上传图片</a>
+									  <input type="file" multiple name="file_0" class="input-file" multiple="" id="uploadfile">
+								</span>
+								</form>
+								<span id="img_error" class="c-red"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2"></label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<div class="uploader-list-container">
+								<div class="queueList">
+
+									<div id="dndArea" class="placeholderss">
+										<!--<div class="img_content">-->
+											<!--<a href="javascript:void (0)" style="color: red" class="del_img" >×</a>-->
+											<!--<img src="../static/img/large/4.jpg" alt="" class="img">-->
+										<!--</div>-->
+										<!--<div  class="img_content">-->
+											<!--<a href="javascript:void (0)" style="color: red" class="del_img" >×</a>-->
+											<!--<img src="../static/img/large/4.jpg" alt="" class="img">-->
+										<!--</div>-->
+
+									</div>
+
+								</div>
+								<div class="statusBar" style="display:none;">
+									<div class="progress"> <span class="text">0%</span> <span class="percentage"></span> </div>
+									<div class="info"></div>
+									<div class="btns">
+										<div id="filePicker2"></div>
+										<div class="uploadBtn">开始上传</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row cl">
+						<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+							<button  class="btn  btn-primary radius" type="button" id="sure">完成， 提交商品</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="col-xs-2 col-sm-2"></div>
+	</div>
+</div>
+
+
+{include file='public/footer' }
+<script type="text/javascript" src="../admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="../admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="../admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="../admin/lib/webuploader/0.1.5/webuploader.min.js"></script>
+<script type="text/javascript" src="../admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="../admin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="../admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+$(function(){
+
+    //商品状态
+	var goods_flag = 0;
+	$(document).on('click', "input[name='goods_flag']", function () {
+        if (goods_flag == 0) {
+
+            goods_flag = 1;
+            $('#goods_flag').html("<input class='btn radius btn-warning size-M' name='goods_flag' type='button' value='下架'>")
+
+        }else  {
+            goods_flag = 0;
+            $('#goods_flag').html("<input class='btn radius btn-primary size-M' name='goods_flag' type='button' value='上架'>")
+
+        }
+    })
+    //提交
+	$('#sure').click(function () {
+	    //商品编号
+		var goods_number = $('#goods_number').val();
+		//商品名
+        var goods_name = $('#goods_name').val();
+        //商品数量
+        var goods_count = $('#goods_count').val();
+        //商品进价
+        var goods_enter_price = $('#goods_enter_price').val();
+        //商品售价
+        var goods_sell_price = $('#goods_sell_price').val();
+        //商品描述
+        var goods_content = $('.textarea').val();
+        //类别
+        var type_id = $('#attr').val();
+
+        //属性 属性值
+        var type_arr = [];
+		//图片
+        var goods_img = [];
+        $('.img').each(function () {
+			var img = $(this).attr('src');
+            goods_img.push(img);
+        })
+//        alert(goods_number+goods_name+goods_count+goods_enter_price+goods_sell_price+goods_content);
+//		console.log(goods_img)
+		$("input[name='checkbox']").each(function () {
+			var type = [];
+			if ($(this).prop('checked')) {
+                var parent_id = $(this).attr('data-parent');
+                var typeId = $(this).val();
+                type.push(parent_id,typeId);
+                type_arr.push(type)
+			}
+
+        });
+		$.post("{:url('addGoods')}", {
+            goods_number:goods_number,
+            goods_name:goods_name,
+            goods_count:goods_count,
+            goods_enter_price:goods_enter_price,
+            goods_sell_price:goods_sell_price,
+            goods_content:goods_content,
+            goods_flag:goods_flag,
+            type_id:type_id,
+            type_arr:type_arr,
+            goods_img:goods_img
+		}, function (data) {
+			console.log(data)
+			if (data.status == 200) {
+			    alert(data.msg);
+			}
+            if (data.status == 401) {
+                alert(data.msg);
+            }
+            if (data.status == 402) {
+                errorExists(data.msg.goods_number, '#goods_number_error');
+                errorExists(data.msg.goods_name, '#goods_name_error');
+                errorExists(data.msg.goods_count, '#goods_count_error');
+                errorExists(data.msg.goods_sell_price, '#goods_sell_price_error');
+                errorExists(data.msg.type_id, '#attr_error');
+                errorExists(data.img_error, '#img_error');
+            }
+        } )
+    });
+
+    //获取属性
+    $("#attr").change(function () {
+        $("#change div #div1").html(" ");
+        var attr_id = $("#attr").val();
+//        alert(attr_id);
+		$.post("{:url('obtainAttr')}", {parent_id:attr_id}, function (data) {
+//			console.log(data);
+			if (data.status == 200) {
+				for (var i=0;i<data.msg.length; i++) {
+
+                    $("#change div #div1").append("<p id='type1' data-id='"+data.msg[i]['type_id']+"'>"+data.msg[i]['type_name']+":</p>");
+//			$("#change div #div1").append("<div><p>"+data.msg[i]['type_name']+"：</p>"+
+//				"<input type='checkbox' name='size_check' value='S'>S&nbsp;&nbsp;&nbsp;"+
+//				"<input type='checkbox' name='size_check' value='M'>M&nbsp;&nbsp;&nbsp;"+
+//				"<input type='checkbox' name='size_check' value='L'>L&nbsp;&nbsp;&nbsp;"+
+//				"<input type='checkbox' name='size_check' value='XL'>XL&nbsp;&nbsp;&nbsp;"+
+//				"<input type='checkbox' name='size_check' value='XXL'>XXL&nbsp;&nbsp;&nbsp;</div>")
+					for (var j=0;j<data.list.length; j++) {
+                        if (data.list[j]['parent_id'] == data.msg[i]['type_id']) {
+                            $("#change div #div1").append("<input type='checkbox' name='checkbox' data-parent='"+data.msg[i]['type_id']+"' value='"+data.list[j]['type_id']+"'>"+data.list[j]['type_name']+"&nbsp;&nbsp;&nbsp;")
+						}
+					}
+				}
+
+			}
+			if (data.status == 401) {
+			    $("#change div i").html(data.msg);
+                $("#change div #div1").html(' ');
+
+			} else {
+                $("#change div i").html(' ');
+			}
+        })
+//		$("#change div div").html("<div class='cl pd-5 bg-1 bk-gray mt-20' style='line-height: 30px;padding-right: 10px;padding-top: 15px'>"+
+//        "<p>颜色：</p><div id='color_content' ></div>"+
+//         "<input type='text'  id='content' class='input-text radius size-M' style='width: 200px'>"+
+//            "<input class='btn' type='button'  value='添加' id='color_add'><p>尺寸：</p>"+
+//        "<input type='checkbox' name='size_check' value='S'>S&nbsp;&nbsp;&nbsp;"+
+//        "<input type='checkbox' name='size_check' value='M'>M&nbsp;&nbsp;&nbsp;"+
+//        "<input type='checkbox' name='size_check' value='L'>L&nbsp;&nbsp;&nbsp;"+
+//        "<input type='checkbox' name='size_check' value='XL'>XL&nbsp;&nbsp;&nbsp;"+
+//        "<input type='checkbox' name='size_check' value='XXL'>XXL&nbsp;&nbsp;&nbsp;"+
+//        "</div>");
+    });
+    //添加颜色属性
+    $(document).on('click', '#color_add', function () {
+        var content = $('#content').val();
+        if (content == '') {
+            alert('属性值不能为空');
+            return;
+        }
+        $('#color_content').append("<span>"+
+            "<input type='checkbox' name='color_check'>&nbsp;"+content+
+            "<a href='javascript:vold(0)' class='c-red' ref='del_color'>&nbsp;删除&nbsp;&nbsp;</a>"+
+            "</span>");
+    });
+
+	//删除颜色属性
+	$(document).on('click',"a[ref='del_color']", function () {
+        $(this).parent().remove();
+    });
+
+	//显示图片
+
+    var flag = 0;
+	$('#uploadfile').change(function () {
+
+        if (flag >= 2) {
+            alert('图片不能超过10张');
+            return;
+        }
+		var formData = new FormData();
+		for (var i=0; i<this.files.length;i++) {
+            formData.append('files',$('#uploadfile')[0].files[i]);
+//		$.post("{:url('add_img')}",{}, function () {
+//
+//        })
+            $.ajax({
+                type: 'POST',
+                url: "{:url('addImg')}",
+                data: formData,
+                processData: false,
+                contentType: false
+            }).then(function (data) {
+//                console.log(data);
+            if (data.status == 200) {
+                $("#dndArea").append("<div class='img_content'>"+
+                "<a href='javascript:void (0)' style='color: red' class='del_img' >×</a>"+
+                "<img src='"+data.msg+"' class='img'>"+
+                "</div>")
+
+            }
+
+            });
+
+		}
+    })
+
+
+	$(document).on('click', '.del_img', function () {
+		if (confirm('确定删除')) {
+            $(this).parent().remove();
+		}
+    })
+});
+
+/**
+ * 判断错误信息是否存在
+ * @param error 错误信息
+ * @param idd 选择器
+ */
+function errorExists(error, idd) {
+
+    if (error == null) {
+        $(idd).html(' ');
+    } else {
+        $(idd).html(error);
+    }
+
+}
+
+</script>
+</body>
+</html>

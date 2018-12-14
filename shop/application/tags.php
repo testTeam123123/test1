@@ -9,6 +9,8 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+\think\Hook::add('my_axios','app\\index\\behavior\\Axios');
+
 // 应用行为扩展定义文件
 return [
     // 应用初始化
@@ -18,11 +20,12 @@ return [
     // 模块初始化
     'module_init'  => [],
     // 操作开始执行
-    'action_begin' => [],
+    'action_begin' => ['app\\admin\\behavior\\Login'],
     // 视图内容过滤
     'view_filter'  => [],
     // 日志写入
     'log_write'    => [],
     // 应用结束
     'app_end'      => [],
+    'session_exist' => ['app\\admin\\behavior\\Login']
 ];

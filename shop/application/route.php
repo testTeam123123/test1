@@ -10,7 +10,9 @@
 // +----------------------------------------------------------------------
 
 \think\Route::domain('admin.myshop1.com','admin');
-
+\think\Route::resource('login', 'index/login');
+\think\Route::resource('index', 'index/index');
+\think\Route::resource('enroll', 'index/enroll');
 return [
     '__pattern__' => [
         'name' => '\w+',
@@ -20,4 +22,6 @@ return [
         ':name' => ['index/hello', ['method' => 'post']],
     ],
 
+    'login' => ['index/login/save',['method' => 'OPTIONS']],
+    'enroll' => ['index/enroll/save',['method' => 'OPTIONS']]
 ];
